@@ -1,13 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://b40xtuyhxrrlu"]
+[gd_scene load_steps=3 format=3 uid="uid://b40xtuyhxrrlu"]
 
 [ext_resource type="Script" path="res://3rd-person camera/camera.gd" id="1_khtdl"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ler7a"]
 
 [node name="Pivot" type="Node3D"]
 script = ExtResource("1_khtdl")
 
 [node name="h" type="Node3D" parent="."]
 
-[node name="v" type="Node3D" parent="h"]
+[node name="v" type="SpringArm3D" parent="h"]
+shape = SubResource("SphereShape3D_ler7a")
+spring_length = 6.9
 
 [node name="Camera3D" type="Camera3D" parent="h/v"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.9)
