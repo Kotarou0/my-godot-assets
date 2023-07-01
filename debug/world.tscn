@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://b40xtuyhxrrlu" path="res://3rd-person camera/camera.tscn" id="2_0k47x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_366n0"]
-size = Vector3(50, 1, 50)
+size = Vector3(100, 1, 100)
 
 [sub_resource type="BoxMesh" id="BoxMesh_u8y1y"]
-size = Vector3(50, 1, 50)
+size = Vector3(100, 1, 100)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ux8a3"]
 albedo_color = Color(0.364706, 0.556863, 0.670588, 1)
