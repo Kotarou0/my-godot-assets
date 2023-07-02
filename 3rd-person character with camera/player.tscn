@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://b7ucyrhcrrwry"]
+
+[ext_resource type="Script" path="res://3rd-person character with camera/player.gd" id="1_8ap7p"]
+[ext_resource type="Script" path="res://3rd-person character with camera/camera.gd" id="2_0c8m2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cl3ud"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gachd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nkdgh"]
+size = Vector3(0.5, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iq7ju"]
+albedo_color = Color(0.803922, 0.211765, 0.45098, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ler7a"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_8ap7p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_cl3ud")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
+mesh = SubResource("CapsuleMesh_gachd")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0990899, 0.784327, -0.480198)
+mesh = SubResource("BoxMesh_nkdgh")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_iq7ju")
+
+[node name="Pivot" type="Node3D" parent="."]
+script = ExtResource("2_0c8m2")
+
+[node name="h" type="Node3D" parent="Pivot"]
+
+[node name="v" type="SpringArm3D" parent="Pivot/h"]
+shape = SubResource("SphereShape3D_ler7a")
+spring_length = 6.9
+margin = 0.1
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/h/v"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.9)
