@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dht6jdusw3ttp"]
 
-[ext_resource type="PackedScene" uid="uid://b7ucyrhcrrwry" path="res://3rd-person character with camera/player.tscn" id="1_xc623"]
+[ext_resource type="PackedScene" uid="uid://b4gmw63es05k6" path="res://complete 3rd-person character/player.tscn" id="1_fqj1w"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_366n0"]
 size = Vector3(100, 1, 100)
@@ -39,5 +39,5 @@ shape = SubResource("BoxShape3D_8e88g")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
 mesh = SubResource("BoxMesh_c0ovs")
 
-[node name="Player" parent="." instance=ExtResource("1_xc623")]
+[node name="Player" parent="." instance=ExtResource("1_fqj1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

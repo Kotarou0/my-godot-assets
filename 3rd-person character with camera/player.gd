@@ -30,6 +30,10 @@ func _physics_process(delta):
 	velocity += gravity_vector*gravity*delta
 	move_and_slide()
 	
-	$Pivot/h/v.spring_length = lerp($Pivot/h/v.spring_length, 
-		DEFAULT_SPRING_LENGTH*(1+velocity.length()*CAMERA_FOLLOW_MULTIPLIER), 
-		CAMERA_FOLLOW_SPEED * delta)
+	if velocity.length() > 0:
+		$Pivot/h/v.spring_length = lerp($Pivot/h/v.spring_length, 
+			DEFAULT_SPRING_LENGTH*(1+velocity.length()*CAMERA_FOLLOW_MULTIPLIER), 
+			CAMERA_FOLLOW_SPEED * delta)
+		speed_multiplier *= 1 + delta * 0.01 
+	else:
+		speed_multiplier = 1

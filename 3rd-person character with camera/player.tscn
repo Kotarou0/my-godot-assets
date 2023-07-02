@@ -41,7 +41,5 @@ script = ExtResource("2_0c8m2")
 [node name="v" type="SpringArm3D" parent="Pivot/h"]
 shape = SubResource("SphereShape3D_ler7a")
 spring_length = 6.9
-margin = 0.1
 
 [node name="Camera3D" type="Camera3D" parent="Pivot/h/v"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.9)

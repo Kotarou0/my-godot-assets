@@ -1,0 +1,85 @@
+[gd_scene load_steps=15 format=3 uid="uid://b4gmw63es05k6"]
+
+[ext_resource type="Script" path="res://complete 3rd-person character/player.gd" id="1_jqrar"]
+[ext_resource type="Script" path="res://complete 3rd-person character/camera.gd" id="2_8v00k"]
+[ext_resource type="PackedScene" uid="uid://d0ynfsr4g2cf0" path="res://complete 3rd-person character/mannequin.tscn" id="2_vbigu"]
+[ext_resource type="AnimationLibrary" uid="uid://b53nquy4nws13" path="res://complete 3rd-person character/Mannequin/MannequinAnimations.glb" id="3_36edk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0eaoy"]
+size = Vector3(1, 1.70328, 1)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bxla2"]
+animation = &"MannequinAnimations/Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m5ik3"]
+animation = &"MannequinAnimations/Idle"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_wq13d"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6nnhb"]
+animation = &"MannequinAnimations/Punch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m865k"]
+animation = &"MannequinAnimations/Kick"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_r4xa1"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_6nnhb")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_m865k")
+blend_point_1/pos = 1.0
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_2gwdr"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_whal6"]
+graph_offset = Vector2(-372.493, 67.598)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_m5ik3")
+nodes/Animation/position = Vector2(-213.333, 53.3333)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_bxla2")
+"nodes/Animation 2/position" = Vector2(-213.333, 213.333)
+nodes/attack/node = SubResource("AnimationNodeOneShot_wq13d")
+nodes/attack/position = Vector2(320, 186.667)
+nodes/attack_type/node = SubResource("AnimationNodeBlendSpace1D_r4xa1")
+nodes/attack_type/position = Vector2(106.667, 320)
+nodes/output/position = Vector2(533.333, 186.667)
+nodes/run/node = SubResource("AnimationNodeBlend2_2gwdr")
+nodes/run/position = Vector2(80, 80)
+node_connections = [&"output", 0, &"attack", &"run", 0, &"Animation", &"run", 1, &"Animation 2", &"attack", 0, &"run", &"attack", 1, &"attack_type"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ler7a"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree")]
+script = ExtResource("1_jqrar")
+animation_tree = NodePath("Visual/Mannequin/AnimationTree")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0eaoy")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Mannequin" parent="Visual" instance=ExtResource("2_vbigu")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.866325, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visual/Mannequin"]
+libraries = {
+"MannequinAnimations": ExtResource("3_36edk")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="Visual/Mannequin"]
+tree_root = SubResource("AnimationNodeBlendTree_whal6")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/attack/active = false
+parameters/attack/request = 0
+parameters/attack_type/blend_position = 0.0
+parameters/run/blend_amount = 0.0
+
+[node name="Pivot" type="Node3D" parent="."]
+script = ExtResource("2_8v00k")
+
+[node name="h" type="Node3D" parent="Pivot"]
+
+[node name="v" type="SpringArm3D" parent="Pivot/h"]
+shape = SubResource("SphereShape3D_ler7a")
+spring_length = 6.9
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/h/v"]
