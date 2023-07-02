@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://i74pwaitsham"]
+
+[ext_resource type="Script" path="res://complete 3rd-person character/Behavior/PlayerAction/Action.gd" id="1_ln6ed"]
+[ext_resource type="Script" path="res://complete 3rd-person character/Behavior/PlayerAction/CheckLastPressedActionKey.gd" id="2_xtwuy"]
+[ext_resource type="Script" path="res://complete 3rd-person character/Behavior/PlayerAction/StartActionAnimation.gd" id="3_w724l"]
+
+[node name="Action" type="Node"]
+script = ExtResource("1_ln6ed")
+
+[node name="CheckLastPressedActionKey" type="Node" parent="."]
+script = ExtResource("2_xtwuy")
+
+[node name="StartActionAnimation" type="Node" parent="."]
+script = ExtResource("3_w724l")
