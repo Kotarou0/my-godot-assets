@@ -6,6 +6,7 @@ const DEFAULT_SPRING_LENGTH = 3.0
 const CAMERA_FOLLOW_SPEED = 3
 const CAMERA_FOLLOW_MULTIPLIER = 0.05
 const SPEED_MULTIPLIER = 1.5
+const JUMP_SPEED = 10
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var gravity_vector = ProjectSettings.get_setting("physics/3d/default_gravity_vector")
@@ -35,6 +36,8 @@ func _input(event):
 		for action in actions:
 			if event.is_action(action):
 				last_action = action
+	
+	if event.is_action_pressed("jump") and is_on_floor(): velocity.y = JUMP_SPEED
 
 func _physics_process(delta):
 	if direction:
@@ -53,4 +56,12 @@ func _physics_process(delta):
 	else:
 		speed_multiplier = 1
 	
-	animation_tree["parameters/run/blend_amount"] = (velocity.x**2 + velocity.z**2)**(0.5)/BASE_SPEED
+	animation_tree["parameters/run/blend_amount"] = clamp((velocity.x**2 + velocity.z**2)**(0.5)/BASE_SPEED, 0, 1)
+	
+	if not is_on_floor():
+		if velocity.y < 0:
+			animation_tree["parameters/jump/blend_amount"] = lerp(float(animation_tree["parameters/jump/blend_amount"]), 1.0, delta)
+		else:
+			animation_tree["parameters/jump/blend_amount"] = clamp(2.69*abs(1 - abs(velocity.y/JUMP_SPEED)), 0, 1)
+	else:
+		animation_tree["parameters/jump/blend_amount"] = lerp(animation_tree["parameters/jump/blend_amount"], 0.0, 3.9*delta)

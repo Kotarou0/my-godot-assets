@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b4gmw63es05k6"]
+[gd_scene load_steps=20 format=3 uid="uid://b4gmw63es05k6"]
 
 [ext_resource type="Script" path="res://complete 3rd-person character/player.gd" id="1_jqrar"]
 [ext_resource type="Script" path="res://complete 3rd-person character/camera.gd" id="2_8v00k"]
@@ -13,6 +13,9 @@ size = Vector3(1, 1.70328, 1)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bxla2"]
 animation = &"MannequinAnimations/Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tljbm"]
+animation = &"MannequinAnimations/Jump up"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m5ik3"]
 animation = &"MannequinAnimations/Idle"
@@ -32,22 +35,28 @@ blend_mode = 1
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_wq13d"]
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_x5ekq"]
+
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_2gwdr"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_whal6"]
-graph_offset = Vector2(-163.04, 52.5239)
+graph_offset = Vector2(-140.031, -111.598)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_m5ik3")
 nodes/Animation/position = Vector2(-213.333, 53.3333)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_bxla2")
 "nodes/Animation 2/position" = Vector2(-213.333, 213.333)
+"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_tljbm")
+"nodes/Animation 4/position" = Vector2(26.6667, -133.333)
 nodes/action/node = SubResource("AnimationNodeBlendSpace1D_rlcqo")
 nodes/action/position = Vector2(266.667, 346.667)
 nodes/do_action/node = SubResource("AnimationNodeOneShot_wq13d")
-nodes/do_action/position = Vector2(506.667, 80)
+nodes/do_action/position = Vector2(640, 26.6667)
+nodes/jump/node = SubResource("AnimationNodeBlend2_x5ekq")
+nodes/jump/position = Vector2(405.333, -101.333)
 nodes/output/position = Vector2(1013.33, 186.667)
 nodes/run/node = SubResource("AnimationNodeBlend2_2gwdr")
 nodes/run/position = Vector2(80, 80)
-node_connections = [&"output", 0, &"do_action", &"run", 0, &"Animation", &"run", 1, &"Animation 2", &"do_action", 0, &"run", &"do_action", 1, &"action"]
+node_connections = [&"output", 0, &"do_action", &"run", 0, &"Animation", &"run", 1, &"Animation 2", &"do_action", 0, &"jump", &"do_action", 1, &"action", &"jump", 0, &"run", &"jump", 1, &"Animation 4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ler7a"]
 
@@ -75,6 +84,7 @@ active = true
 parameters/action/blend_position = 0.0
 parameters/do_action/active = false
 parameters/do_action/request = 0
+parameters/jump/blend_amount = 0.0
 parameters/run/blend_amount = 0.0
 
 [node name="Pivot" type="Node3D" parent="."]
