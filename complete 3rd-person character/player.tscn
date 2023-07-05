@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b4gmw63es05k6"]
+[gd_scene load_steps=21 format=3 uid="uid://b4gmw63es05k6"]
 
 [ext_resource type="Script" path="res://complete 3rd-person character/player.gd" id="1_jqrar"]
 [ext_resource type="Script" path="res://complete 3rd-person character/camera.gd" id="2_8v00k"]
@@ -56,9 +56,12 @@ nodes/jump/position = Vector2(405.333, -101.333)
 nodes/output/position = Vector2(1013.33, 186.667)
 nodes/run/node = SubResource("AnimationNodeBlend2_2gwdr")
 nodes/run/position = Vector2(80, 80)
-node_connections = [&"output", 0, &"do_action", &"run", 0, &"Animation", &"run", 1, &"Animation 2", &"do_action", 0, &"jump", &"do_action", 1, &"action", &"jump", 0, &"run", &"jump", 1, &"Animation 4"]
+node_connections = [&"output", 0, &"do_action", &"do_action", 0, &"jump", &"do_action", 1, &"action", &"jump", 0, &"run", &"jump", 1, &"Animation 4", &"run", 0, &"Animation", &"run", 1, &"Animation 2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ler7a"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6lipg"]
+radius = 40.0
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree")]
 script = ExtResource("1_jqrar")
@@ -98,6 +101,11 @@ spring_length = 6.9
 
 [node name="Camera3D" type="Camera3D" parent="Pivot/h/v"]
 
+[node name="Area3D" type="Area3D" parent="Pivot"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Area3D"]
+shape = SubResource("SphereShape3D_6lipg")
+
 [node name="BehaviorTreeRoot" type="Node" parent="."]
 script = ExtResource("5_bheve")
 
@@ -113,3 +121,6 @@ animation_value = -1.0
 player = NodePath("../../..")
 action_key = "attack_heavy"
 animation_value = 1.0
+
+[connection signal="body_entered" from="Pivot/Area3D" to="Pivot" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Pivot/Area3D" to="Pivot" method="_on_area_3d_body_exited"]
