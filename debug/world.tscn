@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dht6jdusw3ttp"]
+[gd_scene load_steps=10 format=3 uid="uid://dht6jdusw3ttp"]
 
 [ext_resource type="PackedScene" uid="uid://b4gmw63es05k6" path="res://complete 3rd-person character/player.tscn" id="1_fqj1w"]
 [ext_resource type="PackedScene" uid="uid://rvdaq73bk51i" path="res://enemies/test_enemy.tscn" id="2_gwvjd"]
@@ -28,6 +28,9 @@ size = Vector3(5, 5, 5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_c0ovs"]
 size = Vector3(5, 5, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_45no4"]
+font_size = 64
 
 [node name="world" type="Node3D"]
 
@@ -61,3 +64,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.66703, 0)
 
 [node name="TestEnemy" parent="." instance=ExtResource("2_gwvjd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.9462, 3.73761, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "press Q to light attack
+press E to heavy attack
+hold Shift to run a bit faster
+press F to focus camera on enemy"
+label_settings = SubResource("LabelSettings_45no4")
