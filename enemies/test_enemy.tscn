@@ -1,0 +1,65 @@
+[gd_scene load_steps=12 format=3 uid="uid://rvdaq73bk51i"]
+
+[ext_resource type="PackedScene" uid="uid://ekjdfq6h64k7" path="res://enemies/enemy.tscn" id="1_037co"]
+[ext_resource type="Script" path="res://addons/behavior_tree/nodes/bt_root.gd" id="2_m23vc"]
+[ext_resource type="Script" path="res://addons/behavior_tree/nodes/composites/sequence.gd" id="4_4ba3t"]
+[ext_resource type="Script" path="res://enemies/AI/is_close_to_player.gd" id="4_062ji"]
+[ext_resource type="Script" path="res://addons/behavior_tree/nodes/decorators/inverter.gd" id="4_px2xo"]
+[ext_resource type="Script" path="res://enemies/AI/is_navigation_finished.gd" id="5_kuors"]
+[ext_resource type="Script" path="res://enemies/AI/go_to_player.gd" id="6_r88i2"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5wgnf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tsp4a"]
+radius = 0.194
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y6dlg"]
+albedo_color = Color(0.501961, 0.145098, 0.203922, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4u0xf"]
+size = Vector3(1, 2, 1)
+
+[node name="TestEnemy" instance=ExtResource("1_037co")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual" index="0"]
+mesh = SubResource("CapsuleMesh_5wgnf")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visual" index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.508411, -0.563104)
+mesh = SubResource("CapsuleMesh_tsp4a")
+surface_material_override/0 = SubResource("StandardMaterial3D_y6dlg")
+
+[node name="CollisionShape3D" parent="." index="1"]
+shape = SubResource("BoxShape3D_4u0xf")
+
+[node name="NavigationAgent3D" parent="." index="2"]
+debug_enabled = true
+debug_path_custom_color = Color(0.890196, 0, 0.313726, 1)
+
+[node name="BehaviorTreeRoot" type="Node" parent="." index="3"]
+script = ExtResource("2_m23vc")
+
+[node name="SequenceComposite" type="Node" parent="BehaviorTreeRoot" index="0"]
+script = ExtResource("4_4ba3t")
+
+[node name="get closer to player" type="Node" parent="BehaviorTreeRoot/SequenceComposite" index="0"]
+script = ExtResource("4_4ba3t")
+
+[node name="InverterDecorator" type="Node" parent="BehaviorTreeRoot/SequenceComposite/get closer to player" index="0"]
+script = ExtResource("4_px2xo")
+
+[node name="is_close_to_player" type="Node" parent="BehaviorTreeRoot/SequenceComposite/get closer to player/InverterDecorator" index="0" node_paths=PackedStringArray("enemy")]
+script = ExtResource("4_062ji")
+enemy = NodePath("../../../../..")
+
+[node name="go to player" type="Node" parent="BehaviorTreeRoot/SequenceComposite/get closer to player" index="1"]
+script = ExtResource("4_4ba3t")
+
+[node name="is_navigation_finished" type="Node" parent="BehaviorTreeRoot/SequenceComposite/get closer to player/go to player" index="0" node_paths=PackedStringArray("enemy")]
+script = ExtResource("5_kuors")
+enemy = NodePath("../../../../..")
+
+[node name="go_to_player" type="Node" parent="BehaviorTreeRoot/SequenceComposite/get closer to player/go to player" index="1" node_paths=PackedStringArray("enemy")]
+script = ExtResource("6_r88i2")
+enemy = NodePath("../../../../..")

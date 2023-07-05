@@ -20,6 +20,12 @@ var do_action = "parameters/do_action/request"
 var last_action = ""
 var actions = InputMap.get_actions()
 
+func _ready():
+	EventBus.get_player.connect(return_player)
+
+func return_player():
+	EventBus.return_player.emit(self)
+
 func _input(event):
 	direction.x = Input.get_axis("ui_left", "ui_right")
 	direction.y = -Input.get_axis("ui_down", "ui_up")
