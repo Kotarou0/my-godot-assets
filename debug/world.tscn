@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dht6jdusw3ttp"]
+[gd_scene load_steps=13 format=3 uid="uid://dht6jdusw3ttp"]
 
+[ext_resource type="PackedScene" uid="uid://owq12t3lbjrf" path="res://environment/portal/portal.tscn" id="1_c860y"]
 [ext_resource type="PackedScene" uid="uid://b4gmw63es05k6" path="res://complete 3rd-person character/player.tscn" id="1_fqj1w"]
 [ext_resource type="PackedScene" uid="uid://rvdaq73bk51i" path="res://enemies/test_enemy.tscn" id="2_gwvjd"]
 
@@ -29,6 +30,12 @@ size = Vector3(5, 5, 5)
 [sub_resource type="BoxMesh" id="BoxMesh_c0ovs"]
 size = Vector3(5, 5, 5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_esqrg"]
+albedo_color = Color(0.819608, 0.596078, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ex34v"]
+size = Vector3(5, 5, 5)
+
 [sub_resource type="LabelSettings" id="LabelSettings_45no4"]
 font_size = 64
 
@@ -54,6 +61,19 @@ shape = SubResource("BoxShape3D_8e88g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/StaticBody3D2"]
 mesh = SubResource("BoxMesh_c0ovs")
+
+[node name="Portal" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.6979, 2.52011, 11.2534)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Portal"]
+mesh = SubResource("BoxMesh_c0ovs")
+surface_material_override/0 = SubResource("StandardMaterial3D_esqrg")
+
+[node name="Portal" parent="NavigationRegion3D/Portal" instance=ExtResource("1_c860y")]
+destiny = "res://debug/world2.tscn"
+
+[node name="CollisionShape3D" parent="NavigationRegion3D/Portal/Portal" index="0"]
+shape = SubResource("BoxShape3D_ex34v")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.873466, 0.486884, 0, -0.486884, 0.873466, -0.173509, 8.44605, 0.174408)
@@ -84,3 +104,5 @@ press E to heavy attack
 hold Shift to run a bit faster
 press F to focus camera on enemy"
 label_settings = SubResource("LabelSettings_45no4")
+
+[editable path="NavigationRegion3D/Portal/Portal"]

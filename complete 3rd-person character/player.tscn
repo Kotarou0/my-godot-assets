@@ -63,7 +63,7 @@ node_connections = [&"output", 0, &"do_action", &"do_action", 0, &"jump", &"do_a
 [sub_resource type="SphereShape3D" id="SphereShape3D_6lipg"]
 radius = 40.0
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree") groups=["player"]]
 script = ExtResource("1_jqrar")
 animation_tree = NodePath("Visual/Mannequin/AnimationTree")
 
